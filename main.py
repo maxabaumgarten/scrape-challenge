@@ -8,7 +8,6 @@
 import csv
 from bs4 import BeautifulSoup
 import requests
-import json
 from urllib.parse import urljoin
 
 # create csv file to store data
