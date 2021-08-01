@@ -9,6 +9,7 @@ import csv
 from bs4 import BeautifulSoup
 import requests
 import json
+from urllib.parse import urljoin
 
 # create csv file to store data
 filename = 'data.csv'
@@ -16,6 +17,7 @@ f = open(filename, 'w')
 
 # science catergory url
 science_url = "http://books.toscrape.com/catalogue/category/books/science_22/index.html"
+base_url = "http://books.toscrape.com/catalogue/"
 
 # get each book url from science_url
 response = requests.get(science_url)
@@ -27,7 +29,9 @@ book_urls = [book.find("a")["href"] for book in book_urls]
 for book_url in book_urls:
 
     # get name, price, Product Description, UPC, Product Type, Tax, Number of reviews of book and store in csv file
-    response = requests.get(book_url)
+    joined_url = urljoin(base_url, book_url)
+    print(joined_url)
+    response = requests.get(joined_url)
     soup = BeautifulSoup(response.text, "html.parser")
     name = soup.find("h1", class_="product_name").text.strip()
     price = soup.find("p", class_="price_color").text.strip()
